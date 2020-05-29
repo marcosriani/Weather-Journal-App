@@ -13,11 +13,14 @@ body {
   background: #f29035;
   color: #f0d43a;
   justify-content: center;
-  grid-gap: 1em;
+  grid-gap: 10px;
   font-size: 20px;
   font-family: 'Oswald', sans-serif;
   display: grid;
-  grid-template-rows: 85px 1fr 1fr;
+  grid-template-rows: 80px 1fr 1fr;
+}
+h1 {
+  margin: 10px 0;
 }
 
 .entry {

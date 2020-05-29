@@ -33,6 +33,10 @@ submitButton.addEventListener('click', (event) => {
   const textAreaContent = textArea.value;
   const zipCode = zip.value;
 
+  if (zipCode === '') {
+    alert('Enter a Zip Code');
+  }
+
   event.preventDefault();
 
   containerDiv.innerHTML = '';
@@ -116,8 +120,13 @@ submitButton.addEventListener('click', (event) => {
   //   Chaining of Promises
   getWeather(baseURL, zipCode, countryCode, apiKey)
     .then((data) => {
-      data.main.currentTime = newDate;
-      data.main.userResponse = textAreaContent;
+      if (data.main !== undefined) {
+        data.main.currentTime = newDate;
+        data.main.userResponse = textAreaContent;
+      } else {
+        alert('Error, Please enter Zip Code');
+      }
+
       postData('/database', data);
     })
     .then(() => {
