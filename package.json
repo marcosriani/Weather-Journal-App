@@ -16,6 +16,5 @@
     "start": "node server.js"
   },
   "author": "",
-  "license": "ISC",
-  "type": "module"
+  "license": "ISC"
 }

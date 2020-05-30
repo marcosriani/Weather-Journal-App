@@ -1,7 +1,7 @@
 // Require Express to run server and routes
-import express from 'express';
-import bodyParser from 'body-parser';
-import cors from 'cors';
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
 
 // Setup empty JS object to act as endpoint for all routes
 const projectData = [];
