@@ -30,6 +30,52 @@
     }
   });
 
+  //   Update UI function
+  const updateUI = async () => {
+    const request = await fetch('/all');
+    try {
+      const returnedData = await request.json();
+
+      const createWrapperElement = (title, elementClass) => {
+        //   Wrapper div
+        const divElement = document.createElement('div');
+        const spanElement = document.createElement('span');
+
+        // Adding class
+        divElement.classList.add(elementClass);
+
+        // Appending elements
+        containerDiv.appendChild(divElement);
+        divElement.innerHTML = title;
+        divElement.appendChild(spanElement);
+
+        return spanElement;
+      };
+
+      returnedData.forEach((dataItem) => {
+        // Creating elements and appending content
+        if (dataItem.temperature !== undefined) {
+          createWrapperElement('Temperature: ', 'temperature').innerHTML =
+            dataItem.temperature;
+        }
+        if (dataItem.currentTime !== undefined) {
+          createWrapperElement('Date: ', 'date').innerHTML =
+            dataItem.currentTime;
+        }
+        if (dataItem.userResponse !== undefined) {
+          createWrapperElement('Feeling: ', 'content').innerHTML =
+            dataItem.userResponse;
+        }
+      });
+
+      //   reset form
+      zip.value = '';
+      textArea.value = '';
+    } catch (error) {
+      console.log('Update UI error', error);
+    }
+  };
+
   submitButton.addEventListener('click', (event) => {
     const textAreaContent = textArea.value;
     const zipCode = zip.value;
@@ -73,51 +119,6 @@
       }
     };
 
-    const updateUI = async () => {
-      const request = await fetch('/all');
-      try {
-        const returnedData = await request.json();
-
-        const createWrapperElement = (title, elementClass) => {
-          //   Wrapper div
-          const divElement = document.createElement('div');
-          const spanElement = document.createElement('span');
-
-          // Adding class
-          divElement.classList.add(elementClass);
-
-          // Appending elements
-          containerDiv.appendChild(divElement);
-          divElement.innerHTML = title;
-          divElement.appendChild(spanElement);
-
-          return spanElement;
-        };
-
-        returnedData.forEach((dataItem) => {
-          // Creating elements and appending content
-          if (dataItem.temperature !== undefined) {
-            createWrapperElement('Temperature: ', 'temperature').innerHTML =
-              dataItem.temperature;
-          }
-          if (dataItem.currentTime !== undefined) {
-            createWrapperElement('Date: ', 'date').innerHTML =
-              dataItem.currentTime;
-          }
-          if (dataItem.userResponse !== undefined) {
-            createWrapperElement('Feeling: ', 'content').innerHTML =
-              dataItem.userResponse;
-          }
-        });
-
-        //   reset form
-        zip.value = '';
-        textArea.value = '';
-      } catch (error) {
-        console.log('Update UI error', error);
-      }
-    };
-
     //   Chaining of Promises
     getWeather(baseURL, zipCode, countryCode, apiKey)
       .then((data) => {
@@ -134,4 +135,8 @@
         updateUI();
       });
   });
+
+  window.onload = () => {
+    updateUI();
+  };
 })();
