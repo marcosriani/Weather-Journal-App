@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 // Setup empty JS object to act as endpoint for all routes
-const projectData = [];
+const projectData = { data: [] };
 
 // Start up an instance of app
 const app = express();
@@ -28,9 +28,16 @@ app.get('/', (req, res) => {
 
 app.post('/database', (req, res) => {
   const { temp, currentTime, userResponse } = req.body.main;
-  projectData.push({ temperature: `${temp}°C` });
-  projectData.push({ currentTime: currentTime });
-  projectData.push({ userResponse: userResponse });
+  const returnedTemp = `${temp}°C`;
+  const returnedcurrentDate = currentTime;
+  const returneduserResponse = userResponse;
+
+  projectData.data.push({
+    temperature: returnedTemp,
+    currentDate: returnedcurrentDate,
+    userResponse: returneduserResponse,
+  });
+
   res.send(projectData);
 });
 
@@ -39,7 +46,7 @@ app.get('/all', (req, res) => {
 });
 
 // Setup Server
-let port = process.env.PORT || 3000;
+const port = 3000;
 
 app.listen(port, () => {
   console.log(`'App running on port ${port}`);

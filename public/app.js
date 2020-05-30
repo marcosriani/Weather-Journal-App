@@ -1,7 +1,7 @@
 (function () {
   // Create a new date instance dynamically with JS
   let d = new Date();
-  let newDate = `${d.getDate()}/${d.getMonth()}/${d.getFullYear()}`;
+  let newDate = `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
 
   // Getting Form information
   const submitButton = document.querySelector('#generate');
@@ -52,15 +52,15 @@
         return spanElement;
       };
 
-      returnedData.forEach((dataItem) => {
+      returnedData.data.forEach((dataItem) => {
         // Creating elements and appending content
         if (dataItem.temperature !== undefined) {
           createWrapperElement('Temperature: ', 'temperature').innerHTML =
             dataItem.temperature;
         }
-        if (dataItem.currentTime !== undefined) {
+        if (dataItem.currentDate !== undefined) {
           createWrapperElement('Date: ', 'date').innerHTML =
-            dataItem.currentTime;
+            dataItem.currentDate;
         }
         if (dataItem.userResponse !== undefined) {
           createWrapperElement('Feeling: ', 'content').innerHTML =
@@ -112,7 +112,6 @@
 
       try {
         const newData = await response.json();
-        console.log(newData);
         return newData;
       } catch (error) {
         console.log('error', error);
